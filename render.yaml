@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: discord-verify
+    env: node
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: DISCORD_TOKEN
+        value: MTI5ODM3Mjc5NTAwMDE2NDM1Mg.GxwEoC.l_x-Nxl2oLXiSTn_u7UtjZvP7XgKnBDxNl34kE
+      - key: GUILD_ID
+        value: 1314583058514706462
