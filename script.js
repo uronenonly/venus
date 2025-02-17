@@ -3,9 +3,15 @@ const config = {
     botToken: 'MTI5ODM3Mjc5NTAwMDE2NDM1Mg.GxwEoC.l_x-Nxl2oLXiSTn_u7UtjZvP7XgKnBDxNl34kE'
 };
 
+const API_URL = 'https://your-render-app-name.onrender.com'; // سيتم تغييره لعنوان Render الخاص بك
+
 async function checkUserInServer(userId) {
     try {
-        const response = await fetch(`http://localhost:3000/check-member/${userId}`);
+        const response = await fetch(`${API_URL}/check-member/${userId}`);
+        if (!response.ok) {
+            console.error('API Error:', response.status);
+            return { success: false, error: 'api_error' };
+        }
         return await response.json();
     } catch (error) {
         console.error('Error:', error);
