@@ -3,18 +3,22 @@ const cors = require('cors');
 const app = express();
 const fetch = require('node-fetch');
 
-// تكوين CORS والـ JSON
-app.use(cors());
+// تكوين CORS للسماح بالوصول من دومينك
+app.use(cors({
+    origin: '*' // في الإنتاج، ضع دومينك الفعلي هنا
+}));
+
 app.use(express.json());
-app.use(express.static('.'));
+app.use(express.static('public'));
 
 // نقطة النهاية للتحقق من العضو
 app.get('/check-member/:userId', async (req, res) => {
     const userId = req.params.userId;
-    const guildId = '1314583058514706462';
-    const botToken = 'MTI5ODM3Mjc5NTAwMDE2NDM1Mg.GxwEoC.l_x-Nxl2oLXiSTn_u7UtjZvP7XgKnBDxNl34kE';
+    const guildId = process.env.GUILD_ID || '1314583058514706462';
+    const botToken = process.env.DISCORD_TOKEN || 'MTI5ODM3Mjc5NTAwMDE2NDM1Mg.GxwEoC.l_x-Nxl2oLXiSTn_u7UtjZvP7XgKnBDxNl34kE';
 
     try {
+        console.log(`Checking user ${userId} in guild ${guildId}`);
         const response = await fetch(
             `https://discord.com/api/v10/guilds/${guildId}/members/${userId}`,
             {
@@ -59,7 +63,7 @@ app.get('/check-member/:userId', async (req, res) => {
     }
 });
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });
